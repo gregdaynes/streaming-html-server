@@ -1,9 +1,14 @@
 {
   "name": "streaming-html-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "fastify start -w -l info -P app.js",
+    "start": "fastify start -l info app.js",
+    "test": "node --test test/**/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage test/**/*.test.js",
+    "update": "npx npm-check-updates -i --format group"
   },
   "keywords": [],
   "author": "Gregory Daynes <email@gregdaynes.com> (http://gregdaynes.com)",
@@ -14,6 +19,11 @@
     "url": "https://github.com/gregdaynes/streaming-html-server.git"
   },
   "dependencies": {
+    "fastify": "^4.26.1",
+    "fastify-plugin": "^4.0.0",
+    "@fastify/autoload": "^5.0.0",
+    "@fastify/sensible": "^5.0.0",
+    "fastify-cli": "^6.2.1",
     "neostandard": "^0.11.1"
   }
 }

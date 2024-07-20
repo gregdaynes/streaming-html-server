@@ -1,0 +1,18 @@
+Streaming HTML Server
+=====================
+
+The goal of this is to demonstrate a server that can stream html out of order. 
+
+This will be based on the work at [lamplightdev](https://lamplightdev.com/blog/2024/01/10/streaming-html-out-of-order-without-javascript/)
+and [SWTL](https://github.com/thepassle/swtl?tab=readme-ov-file).
+
+The server will be built using [Fastify](https://fastify.dev/).
+
+
+References
+----------
+
+https://lamplightdev.com/blog/2024/01/10/streaming-html-out-of-order-without-javascript/
+https://github.com/lamplightdev/ooo
+https://github.com/thepassle/swtl?tab=readme-ov-file
+https://fastify.dev/docs/latest/Reference/Reply/#streams

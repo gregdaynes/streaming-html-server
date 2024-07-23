@@ -1,7 +1,7 @@
 import { render, html } from 'swtl'
 
 export default async function (fastify, opts) {
-  const delayed = fastify.delayed
+  const { delayed, generateData, createReadableStreamFromAsyncGenerator } = fastify
 
   fastify.get('/', async function (request, reply) {
     const template = ({ name }) => html`
@@ -10,7 +10,6 @@ export default async function (fastify, opts) {
           <title>Streaming example</title>
         </head>
         <body>
-          <div>
             <template shadowrootmode="open">
               <header>Header</header>
               <main>
@@ -19,39 +18,38 @@ export default async function (fastify, opts) {
               <footer>Footer</footer>
             </template>
 
-              <!--
-                The html above gets sent first to the browser
-              -->
+            <!--
+              The html above gets sent first to the browser
+            -->
 
-              <!--
-                An artificial delay is added the slot content
-                to simulate a slow response from the server:
-              -->
+            <!--
+              An artificial delay is added the slot content
+              to simulate a slow response from the server:
+            -->
 
-              ${delayed(1000, html`
-                <p slot="content">
-                  Hi ${name}!
-                </p>
-              `)}
+            <p>${generateData()}</p>
 
-              ${delayed(2000, html`
-                <p slot="content">
-                  Hi ${name}!
-                </p>
-              `)}
+              <p slot="content">
+                Hi ${name}!
+              </p>
 
-              ${delayed(3000, html`
-                <p slot="content">
-                  Hi ${name}!
-                </p>
-              `)}
+            <p>${generateData()}</p>
 
-              <!--
-                the remaining html below is sent to the browser once
-                the delayed content has been sent
-              -->
-            </div>
-          </div>
+              <p slot="content">
+                Hi ${name}!
+              </p>
+
+            <p>${generateData()}</p>
+
+              <p slot="content">
+                Hi ${name}!
+              </p>
+
+            <!--
+              the remaining html below is sent to the browser once
+              the delayed content has been sent
+            -->
+          <p>Done</p>
         </body>
       </html>
     `
@@ -59,7 +57,7 @@ export default async function (fastify, opts) {
     reply.header('Content-Type', 'text/html')
 
     const stream =
-      fastify.createReadableStreamFromAsyncGenerator(render(template({ name: 'Ada' })))
+      createReadableStreamFromAsyncGenerator(render(template({ name: 'Ada' })))
 
     return reply.send(stream)
   })

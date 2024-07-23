@@ -1,9 +1,12 @@
+import crypto from 'node:crypto'
 import fp from 'fastify-plugin'
 
 export default fp(async function (fastify, opts) {
   fastify.decorate('delayed', delayed)
 
   fastify.decorate('createReadableStreamFromAsyncGenerator', createReadableStreamFromAsyncGenerator)
+
+  fastify.decorate('generateData', generateData)
 })
 
 const encoder = new TextEncoder()
@@ -31,4 +34,8 @@ export function delayed (ms, data) {
       resolve(data)
     }, ms)
   })
+}
+
+export function generateData () {
+  return crypto.randomBytes(1024)
 }
